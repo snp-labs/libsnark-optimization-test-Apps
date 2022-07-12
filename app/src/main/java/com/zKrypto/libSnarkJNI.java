@@ -12,6 +12,9 @@ public class libSnarkJNI {
     public static final int R1CS_GG = 1 ;
     public static final int R1CS_ROM_SE = 2 ;
 
+    public static final int EC_ALT_BN128 = 1 ;
+    public static final int EC_BLS12_381 = 2 ;
+
     public static final int serializeFormatDefault  = 1 ;
     public static final int serializeFormatCRV      = 2 ;
     public static final int serializeFormatZKlay    = 3 ;
@@ -25,21 +28,25 @@ public class libSnarkJNI {
     private Boolean circuit_is_ready ;
     private Object RuntimeException ;
 
-    public libSnarkJNI( String circuitName ){
+    private void init_ftn( String circuitName ,  int serializeFormat , int ecSelection , String cs_file_path ){
         circuit_name = circuitName ;
-        context_id = createCircuitContext(circuit_name , libSnarkJNI.R1CS_GG ) ;
-        serializeFormat(context_id , serializeFormatDefault );
-        circuit_is_ready = false ;
-        Log.d  ( TAG ,"context id for " + circuitName + " : " + context_id + " , last msg : " + getLastFunctionMsg(context_id) );
-    }
-
-    public libSnarkJNI( String circuitName , int serializeFormat ){
-        circuit_name = circuitName ;
-        context_id = createCircuitContext(circuit_name , libSnarkJNI.R1CS_GG ) ;
+        context_id = createCircuitContext( circuit_name , libSnarkJNI.R1CS_GG , ecSelection , "" , "" , cs_file_path ) ;
         serializeFormat(context_id , serializeFormat );
         circuit_is_ready = false ;
         Log.d  ( TAG ,"context id for " + circuitName + " : " + context_id + " , last msg : " + getLastFunctionMsg(context_id) );
     }
+
+    public libSnarkJNI( String circuitName ){
+        init_ftn( circuitName , serializeFormatDefault , libSnarkJNI.EC_ALT_BN128 , "" ) ;
+    }
+
+    public libSnarkJNI( String circuitName , String cs_file_path ){
+        init_ftn( circuitName , serializeFormatDefault , libSnarkJNI.EC_ALT_BN128 , cs_file_path ) ;
+    }
+    public libSnarkJNI( String circuitName ,  int serializeFormat , int ecSelection , String cs_file_path ){
+        init_ftn( circuitName , serializeFormat , ecSelection , cs_file_path ) ;
+    }
+
 
     public void buildCircuit() {
         if ( !circuit_is_ready ) {
@@ -49,27 +56,6 @@ public class libSnarkJNI {
             Log.d  ( TAG ,"buildCircuit : " + context_id + " , " + circuit_name + " , " + rtn + " , " + getLastFunctionMsg(context_id) );
         }
     }
-
-
-    public void buildCircuit( File cs_file_path , String checksum_prefix ) {
-        if (!circuit_is_ready) {
-
-            if ( checksum_prefix.length() > 0 ) {
-                int rtn = verifyConstraintSystemFileChecksum(
-                        context_id,
-                        cs_file_path.toString(),
-                        checksum_prefix );
-                if (rtn != 0) { throw new RuntimeException("verifyConstraintSystemFileChecksumError") ; }
-            }
-
-            int rtn = buildCircuitFromCSFile( context_id , cs_file_path.toString() ) ;
-            if (rtn != 0) { throw new RuntimeException("buildCircuitFromCSFileError") ; }
-            circuit_is_ready = true ;
-            Log.d  ( TAG ,"buildCircuit : " + context_id + " , " + circuit_name + " , " + rtn + " , " + getLastFunctionMsg(context_id) );
-        }
-    }
-
-
 
     public void runSetup()  {
         int rtn = runSetup(context_id) ;
@@ -202,11 +188,22 @@ public class libSnarkJNI {
     }
 
 
-    private native int createCircuitContext(String circuit_name , int proof_system );
+    /*
+     *
+     *  See https://github.com/snp-labs/libsnark-optimization/blob/master/api.hpp
+     *
+     */
+
+    private native int createCircuitContext(String circuit_name ,
+                                            int proof_system ,
+                                            int ecSelection ,
+                                            String arith_text_path ,
+                                            String inputs_text_path ,
+                                            String cs_file_path);
+
     private native int serializeFormat(int circuit_context_id , int format  );
     private native int assignCircuitArgumentsByJson(int circuit_context_id , String args_json_string );
     private native int buildCircuit ( int circuit_context_id  ) ;
-    private native int buildCircuitFromCSFile(int circuit_context_id , String cs_file_path );
     private native int runSetup (int circuit_context_id  ) ;
     private native int runProof (int circuit_context_id  ) ;
     private native int runVerify (int circuit_context_id  ) ;
@@ -232,10 +229,6 @@ public class libSnarkJNI {
     private native int deSerializeProof(int circuit_context_id, String json_string);
     private native int finalizeCircuit(int circuit_context_id  ) ;
     private native String getLastFunctionMsg(int circuit_context_id) ;
-    private native int buildCircuitFromFile(
-                        int circuit_context_id , 
-                        String arith_text_path,
-                        String inputs_text_path );
 
 }
 

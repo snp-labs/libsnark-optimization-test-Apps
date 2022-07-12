@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     //  -   proving key
                     //  -   verify key
                     //  to file
-                    context = new libSnarkJNI(circuit_name);
+                    context = new libSnarkJNI(circuit_name );
                     context.buildCircuit();
                     context.runSetup();
                     context.getConstraintSystem( cs_file_path,true, cs_file_checksum) ;
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     context.getVerifyKey( vk_file_path ) ;
                     vk_json = context.getVerifyKey() ;
                     context.close();
+
 
                     //
                     // create embedded circuit and run proof
@@ -94,19 +95,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     context.setInput(inputs_json );
                     context.setProofKey( pk_file_path );
                     context.runProof();
-                    context.getProof( proof_file_path );
+                    proof_json = context.getProof();
                     context.close();
 
 
                     //
                     // re-construct circuit from constraint system file and run proof
                     //
-                    context = new libSnarkJNI(circuit_name );
-                    context.buildCircuit(cs_file_path ,  cs_file_checksum);
+                    context = new libSnarkJNI(circuit_name , cs_file_path.toString() );
+                    context.buildCircuit();
                     context.setInput(inputs_json );
                     context.setProofKey( pk_file_path );
                     context.runProof();
-                    proof_json = context.getProof();
+                    context.getProof( proof_file_path );
                     context.close();
 
 
@@ -114,19 +115,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     // verify proofs
                     //
                     context = new libSnarkJNI(circuit_name );
-                    context.buildCircuit( cs_file_path ,  cs_file_checksum);
+                    context.buildCircuit();
                     context.setInput( inputs_json );
                     context.setVerifyKey( vk_file_path );
-                    context.setProof( proof_file_path );
+                    context.setProof( proof_json );
                     context.runVerify();
                     context.close();
                     Log.d  ( TAG ,"\n <<< Verify 1 Success >>>\n" );
 
-                    context = new libSnarkJNI(circuit_name );
-                    context.buildCircuit(cs_file_path , cs_file_checksum);
+                    context = new libSnarkJNI(circuit_name , cs_file_path.toString() );
+                    context.buildCircuit();
                     context.setInput( inputs_json );
                     context.setVerifyKey(vk_json );
-                    context.setProof( proof_json );
+                    context.setProof( proof_file_path  );
                     context.runVerify();
                     context.close();
                     Log.d  ( TAG ,"\n <<< Verify 2 Success >>>\n" );

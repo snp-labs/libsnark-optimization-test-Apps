@@ -12,7 +12,7 @@ Set enviroment variables :
 export ANDROID_API_LEVEL=23
 export ANDROID_NDK=20.0.5594570
 export LIBSNARK_DIR=${PWD}/../libsnark-optimization
-export BUILD_TYPE=debug
+export BUILD_TYPE=release
 ```
 
 Extract object files and build shared library :
