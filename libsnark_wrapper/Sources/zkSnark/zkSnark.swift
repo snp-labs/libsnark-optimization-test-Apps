@@ -6,11 +6,14 @@ import CSnark
 public class CircuitContext {
     
     public static let serializeFormatDefault : Int32 = 1
-    public static let serializeFormatCRV : Int32 = 2
-    public static let serializeFormatZKlay : Int32 = 3
+    public static let serializeFormatCRV     : Int32 = 2
+    public static let serializeFormatZKlay   : Int32 = 3
     
-    let R1CS_GG : Int32     = 1
-    let R1CS_ROM_SE : Int32 = 2
+    public static let R1CS_GG     : Int32 = 1
+    public static let R1CS_ROM_SE : Int32 = 2
+    
+    public static let EC_ALT_BN128 : Int32 = 1
+    public static let EC_BLS12_381 : Int32 = 2
     
     
     private let circuit_name : CString
@@ -21,14 +24,27 @@ public class CircuitContext {
     
     var circuit_is_ready : Bool
     
+    let ec_selection : Int32
+    
 
-    public init ( _ circuitName : String , serializeFormat : Int32 = serializeFormatDefault ){
+    public init ( _ circuitName : String ,
+                  ecSelection : Int32 = EC_ALT_BN128 ,
+                  cs_file_path : String = "" ,
+                  serializeFormat : Int32 = serializeFormatDefault )
+    {
         
         circuit_name = CString(circuitName)
         
         circuit_is_ready = false
+        
+        ec_selection = ecSelection
 
-        context_id = CSnark.createCircuitContext( circuit_name.char() , R1CS_GG ) ;
+        context_id = CSnark.createCircuitContext( circuit_name.char() ,
+                                                  CircuitContext.R1CS_GG ,
+                                                  ec_selection ,
+                                                  CString("").char(),
+                                                  CString("").char(),
+                                                  CString(cs_file_path).char()) ;
 
         CSnark.serializeFormat(context_id , serializeFormat )
 
@@ -45,26 +61,6 @@ public class CircuitContext {
             print ( "buildCircuit : \(context_id) , \(circuitName) , \(rtn) \"\(lastMsg())\" " )
         }
     }
-    
-    public func buildCircuit( cs_file_path : String , checksum_prefix : String? ) throws -> Void {
-        if !circuit_is_ready {
-            
-            if let checksum_prefix = checksum_prefix {
-                let rtn = CSnark.verifyConstraintSystemFileChecksum(
-                                context_id,
-                                CString(cs_file_path).char() ,
-                                CString(checksum_prefix).char())
-                if rtn != 0 { throw Errors.verifyConstraintSystemFileChecksumError }
-            }
-            
-            let rtn = CSnark.buildCircuitFromCSFile( context_id , CString(cs_file_path).char() ) ;
-            if rtn != 0 { throw Errors.buildCircuitFromCSFileError }
-            circuit_is_ready = (rtn == 0) ? true : false ;
-            print ( "buildCircuit : \(context_id) , \(circuitName) , \(rtn) \"\(lastMsg())\" " )
-        }
-    }
-    
-    
     
     public func runSetup() throws -> Void  {
         let rtn = CSnark.runSetup(context_id) ;

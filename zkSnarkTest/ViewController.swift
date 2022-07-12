@@ -72,7 +72,7 @@ class ViewController: UIViewController , UIPickerViewDelegate , UIPickerViewData
                 //  -   proving key
                 //  -   verify key
                 //  to file
-                context = zkSnark.CircuitContext(circuit_name )
+                context = zkSnark.CircuitContext( circuit_name )
                 try context.buildCircuit()
                 try context.runSetup()
                 try context.getConstraintSystem(path: cs_file_path, checksum_prefix: cs_file_checksum )
@@ -80,22 +80,23 @@ class ViewController: UIViewController , UIPickerViewDelegate , UIPickerViewData
                 try context.getVerifyKey(path: vk_file_path )
                 vk_json = try context.getVerifyKey()
                 
+                
                 //
+                // Proof
+                //
+                
                 // create embedded circuit and run proof
-                //
                 context = zkSnark.CircuitContext(circuit_name )
                 try context.buildCircuit()
                 try context.setInput(inputs_json: inputs_json )
                 try context.setProofKey(path: pk_file_path )
                 try context.runProof()
-                try context.getProof(path: proof_file_path )
+                try context.getProof( path: proof_file_path )
                 
                 
-                //
                 // re-construct circuit from constraint system file and run proof
-                //
-                context = zkSnark.CircuitContext(circuit_name )
-                try context.buildCircuit(cs_file_path: cs_file_path , checksum_prefix: cs_file_checksum)
+                context = zkSnark.CircuitContext(circuit_name , cs_file_path: cs_file_path )
+                try context.buildCircuit()
                 try context.setInput(inputs_json: inputs_json )
                 try context.setProofKey(path: pk_file_path )
                 try context.runProof()
@@ -103,18 +104,21 @@ class ViewController: UIViewController , UIPickerViewDelegate , UIPickerViewData
                 
                 
                 //
-                // verify proofs
+                // Verify
                 //
-                context = zkSnark.CircuitContext(circuit_name )
-                try context.buildCircuit(cs_file_path: cs_file_path , checksum_prefix: cs_file_checksum)
+                
+                // create embedded circuit and verify proofs from file
+                context = zkSnark.CircuitContext(circuit_name , cs_file_path: cs_file_path )
+                try context.buildCircuit()
                 try context.setInput(inputs_json: inputs_json )
                 try context.setVerifyKey(path: vk_file_path )
                 try context.setProof(path: proof_file_path )
                 try context.runVerify()
                 print ( "\n <<< Verify 1 Success >>>\n")
                 
+                // re-construct circuit from constraint system file and verify proofs from json
                 context = zkSnark.CircuitContext(circuit_name )
-                try context.buildCircuit(cs_file_path: cs_file_path , checksum_prefix: cs_file_checksum)
+                try context.buildCircuit()
                 try context.setInput(inputs_json: inputs_json )
                 try context.setVerifyKey(json: vk_json )
                 try context.setProof(json: proof_json )
