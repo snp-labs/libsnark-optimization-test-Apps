@@ -1,23 +1,17 @@
 
 
 ## Downlaod and build libsnark for iOS
-See : [zkrypto libsnark repository](https://github.com/snp-labs/libsnark-optimization).
+See : [Zkrypto libsnark repository](https://github.com/snp-labs/libsnark-optimization).
 
 
-## Copy or link libSnark library
+### Setup library : 
+
+run the command below in libsnark-optimization folder
 
 ```bash
-export LIBSNARK_DIR=${PWD}/../libsnark-optimization
-
-ln -s ${LIBSNARK_DIR}/lib/ios_release/lib/libSnark_iphoneos.a native_libs/iphoneos_release/libSnark.a
-
-ln -s ${LIBSNARK_DIR}/lib/ios_release/lib/libSnark_iphonesimulator.a native_libs/iphonesimulator_release/libSnark.a
-
-
-ln -s ${LIBSNARK_DIR}/lib/ios_debug/lib/libSnark_iphoneos.a native_libs/iphoneos_debug/libSnark.a
-
-ln -s ${LIBSNARK_DIR}/lib/ios_debug/lib/libSnark_iphonesimulator.a native_libs/iphonesimulator_debug/libSnark.a
-
+make ios_sample_app 
 ```
 
-### Open this folder with Xcode
+### Open App in Xcode
+
+Open test_ios_app folder in Xcode
