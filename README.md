@@ -9,7 +9,7 @@ See : [Zkrypto libsnark repository](https://github.com/snp-labs/libsnark-optimiz
 run the command below in libsnark-optimization folder
 
 ```bash
-make android_sample_app 
+make android_sample_app k
 ```
 
 ### Open App in Android Studio

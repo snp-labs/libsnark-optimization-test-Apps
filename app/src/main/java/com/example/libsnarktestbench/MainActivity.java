@@ -14,9 +14,11 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import com.HelloWorld;
 import com.zKrypto.libSnarkJNI ;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
 
     private static final String TAG = "SNARK_LOG" ;
     private String circuit_name = "Register" ;
@@ -46,6 +48,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onNothingSelected(AdapterView<?> parent) { }
 
+    public void onClickTemp(View view) {
+        System.out.println("123123");
+
+        String output = HelloWorld.hello("aa");
+        System.out.printf("output: " + output);
+//        Foo.bar1("power");
+//        System.out.println("1111 " + a);
+    }
 
     public void onRunTestClick( View view  ){
 
