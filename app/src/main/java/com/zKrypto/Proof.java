@@ -1,10 +1,10 @@
-package com;
+package com.zKrypto;
 
-public class HelloWorld {
+public class Proof {
     static {
         System.loadLibrary("jni");
     }
 //    public static native String hello(String input);
-//
-//    public static native byte[] hello2(byte[] input);
+
+    public static native String encrypt(String input);
 }

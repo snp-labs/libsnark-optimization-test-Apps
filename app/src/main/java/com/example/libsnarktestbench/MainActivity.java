@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.HelloWorld;
+import com.zKrypto.Proof;
 import com.zKrypto.libSnarkJNI ;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onClickTemp(View view) {
         System.out.println("123123");
 
-        String output = HelloWorld.hello("aa");
+//        byte[] arr = {1,2};
+        String output = Proof.encrypt("hello1");
         System.out.printf("output: " + output);
 //        Foo.bar1("power");
 //        System.out.println("1111 " + a);
