@@ -37,11 +37,11 @@ public class libSnarkJNI {
     }
 
     public libSnarkJNI( String circuitName ){
-        init_ftn( circuitName , serializeFormatDefault , libSnarkJNI.EC_ALT_BN128 , "" ) ;
+        init_ftn( circuitName , serializeFormatDefault , libSnarkJNI.EC_BLS12_381 , "" ) ;
     }
 
     public libSnarkJNI( String circuitName , String cs_file_path ){
-        init_ftn( circuitName , serializeFormatDefault , libSnarkJNI.EC_ALT_BN128 , cs_file_path ) ;
+        init_ftn( circuitName , serializeFormatDefault , libSnarkJNI.EC_BLS12_381 , cs_file_path ) ;
     }
     public libSnarkJNI( String circuitName ,  int serializeFormat , int ecSelection , String cs_file_path ){
         init_ftn( circuitName , serializeFormat , ecSelection , cs_file_path ) ;

@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                             (circuit_name.compareToIgnoreCase("Register") == 0 ) ?  R.raw.sample_input_register :
                                             (circuit_name.compareToIgnoreCase("Tally")    == 0 ) ?  R.raw.sample_input_tally :
                                             (circuit_name.compareToIgnoreCase("Vote")     == 0 ) ?  R.raw.sample_input_vote :
+                                            (circuit_name.compareToIgnoreCase("MiMC7")     == 0 ) ?  R.raw.sample_input_mimc7 :
+                                            (circuit_name.compareToIgnoreCase("Encryption")     == 0 ) ?  R.raw.sample_input_encryption :
                                                                                                         R.raw.sample_input_zklay ) ;
 
                     libSnarkJNI context ;
