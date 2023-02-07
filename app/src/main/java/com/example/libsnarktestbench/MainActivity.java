@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        byte[] arr = {1,2};
         String output = Proof.encrypt("hello1");
         System.out.printf("output: " + output);
+        System.out.println("234234");
 //        Foo.bar1("power");
 //        System.out.println("1111 " + a);
     }
