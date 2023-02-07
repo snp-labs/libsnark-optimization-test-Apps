@@ -1,6 +1,8 @@
 package com.example.libsnarktestbench;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -52,12 +54,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onClickTemp(View view) {
         System.out.println("123123");
 
-//        byte[] arr = {1,2};
+//        try {
+//            InputStream in = getResources().openRawResource(R.raw.params_enc);
+//            int size = in.available();
+//            byte[] buffer = new byte[size];
+//            in.read(buffer);
+//            in.close();
+//            System.out.println("buffer len: " + buffer.length);
+//            System.out.println("buffer: " + buffer);
+//        } catch (Exception e) {
+//            System.out.println("srs read exception err: " + e);
+//        }
+//
+//        System.out.println("234234");
+//        return;
+
         String output = Proof.encrypt("hello1");
         System.out.printf("output: " + output);
         System.out.println("234234");
-//        Foo.bar1("power");
-//        System.out.println("1111 " + a);
+
     }
 
     public void onRunTestClick( View view  ){
