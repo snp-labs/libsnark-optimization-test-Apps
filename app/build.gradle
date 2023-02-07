@@ -34,11 +34,12 @@ apply plugin: 'org.mozilla.rust-android-gradle.rust-android'
 cargo {
     module  = "../bellman-extended/source/jni"       // Or whatever directory contains your Cargo.toml
     libname = "jni"          // Or whatever matches Cargo.toml's [package] name.
-    targets = ["arm", "x86"]  // See bellow for a longer list of options
+    targets = ["arm", "x86", "x86_64", "arm64"]  // See bellow for a longer list of options
     targetDirectory = "../bellman-extended/target"
     features {
         all()
     }
+    profile = "release"
 }
 
 dependencies {
