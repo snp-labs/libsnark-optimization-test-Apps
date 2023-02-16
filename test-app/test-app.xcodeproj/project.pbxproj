@@ -16,6 +16,7 @@
 		A600751B299DFA9600ABE924 /* test_appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A600751A299DFA9600ABE924 /* test_appTests.swift */; };
 		A6007525299DFA9600ABE924 /* test_appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6007524299DFA9600ABE924 /* test_appUITests.swift */; };
 		A6007527299DFA9600ABE924 /* test_appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6007526299DFA9600ABE924 /* test_appUITestsLaunchTests.swift */; };
+		A6F52966299E0CFD00D347FF /* libios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6F52965299E0CFC00D347FF /* libios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +51,8 @@
 		A6007524299DFA9600ABE924 /* test_appUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_appUITests.swift; sourceTree = "<group>"; };
 		A6007526299DFA9600ABE924 /* test_appUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_appUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A6007534299DFB5000ABE924 /* test-app-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "test-app-Bridging-Header.h"; sourceTree = "<group>"; };
-		A6007535299DFB5100ABE924 /* proofs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = proofs.h; sourceTree = "<group>"; };
+		A6F52964299E0CEF00D347FF /* proofs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = proofs.h; path = "../../bellman-extended/source/ios/target/proofs.h"; sourceTree = "<group>"; };
+		A6F52965299E0CFC00D347FF /* libios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libios.a; path = "../../bellman-extended/target/libios.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6F52966299E0CFD00D347FF /* libios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +136,8 @@
 		A6007533299DFB1100ABE924 /* proofs */ = {
 			isa = PBXGroup;
 			children = (
-				A6007535299DFB5100ABE924 /* proofs.h */,
+				A6F52964299E0CEF00D347FF /* proofs.h */,
+				A6F52965299E0CFC00D347FF /* libios.a */,
 				A6007534299DFB5000ABE924 /* test-app-Bridging-Header.h */,
 			);
 			path = proofs;
@@ -146,6 +150,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A600752A299DFA9600ABE924 /* Build configuration list for PBXNativeTarget "test-app" */;
 			buildPhases = (
+				A6F52963299E074E00D347FF /* ShellScript */,
 				A60074FC299DFA9500ABE924 /* Sources */,
 				A60074FD299DFA9500ABE924 /* Frameworks */,
 				A60074FE299DFA9500ABE924 /* Resources */,
@@ -265,6 +270,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A6F52963299E074E00D347FF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "bash /Users/zkrypto-1/work/snp-labs/libsnark-optimization-test-Apps/bellman-extended/rust-compile.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A60074FC299DFA9500ABE924 /* Sources */ = {
@@ -462,6 +487,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/proofs";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "temp-org.test-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -492,6 +518,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/proofs";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "temp-org.test-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
