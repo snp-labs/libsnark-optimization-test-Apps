@@ -1,3 +1,0 @@
-# zkSnark
-
-zkSnark swift package.
